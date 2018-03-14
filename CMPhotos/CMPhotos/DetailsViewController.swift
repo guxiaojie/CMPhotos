@@ -29,8 +29,6 @@ class DetailsViewController: UIViewController {
         commonInit()
         setupConstraint()
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.orientationChanged(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
-        
     }
     
     override func viewDidLoad() {
@@ -60,9 +58,9 @@ class DetailsViewController: UIViewController {
     }
     
     func setupConstraint() {
+        view.removeConstraints(view.constraints)
         let currentOrientation = UIApplication.shared.statusBarOrientation
         if UIInterfaceOrientationIsPortrait(currentOrientation) {
-            view.removeConstraints(view.constraints)
             setupOrientationConstraint()
         } else {
             setupLandscapeConstraint()
@@ -110,7 +108,6 @@ class DetailsViewController: UIViewController {
     
     //MARK: orientation
     @objc func orientationChanged(_ notification: Notification) {
-        view.removeConstraints(view.constraints)
         setupConstraint()
         view.updateConstraints()
     }

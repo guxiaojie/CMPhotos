@@ -12,11 +12,8 @@ import UIKit
 class ViewController: UIViewController {
     
     var collectionView: UICollectionView!
-//    var layout: PhotoCollectionViewLayout!
     private var cellSizeCache = NSCache<AnyObject, AnyObject>()
 
-    
-    let refresButton = UIButton()//Mean to show  when no data(not finish)
     let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     var canada = Canada()
     var isLoading: Bool = false
@@ -31,6 +28,13 @@ class ViewController: UIViewController {
         commonInit()
         setupConstraint()
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.orientationChanged(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    convenience init(canada: Canada) {
+        self.init()
+        
+        self.canada = canada
+        self.collectionView.reloadData()
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -55,7 +59,6 @@ class ViewController: UIViewController {
     func commonInit() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(ViewController.refresh))
         
-        
         let flowLayout = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
@@ -66,7 +69,7 @@ class ViewController: UIViewController {
         
         view.addSubview(indicatorView)
         
-        // just for a better UI while loading data
+        //here for a better UI while loading data
         collectionView.isHidden = true;
         indicatorView.hidesWhenStopped = true;
         
@@ -75,7 +78,7 @@ class ViewController: UIViewController {
     func setupConstraint() {
         //constraint collectionView
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
-        let viewsDictionary = ["contentView": collectionView, "button": refresButton] as [String : Any]
+        let viewsDictionary = ["contentView": collectionView] as [String : Any]
         let constraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[contentView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
         let constraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[contentView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
         view.addConstraints(constraintH)
@@ -87,16 +90,6 @@ class ViewController: UIViewController {
         let constraintY = NSLayoutConstraint(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1.0, constant: 0)
         view.addConstraint(constraintX)
         view.addConstraint(constraintY)
-        
-    }
-    
-    //MARK: ViewController
-    
-    convenience init(canada: Canada) {
-        self.init()
-        
-        self.canada = canada
-        self.collectionView.reloadData()
     }
     
     //MARK: Load Data
@@ -143,6 +136,7 @@ class ViewController: UIViewController {
     }
     
     //MARK: orientation
+    
     @objc func orientationChanged(_ notification: Notification) {
         collectionView.collectionViewLayout.invalidateLayout()
     }
@@ -150,9 +144,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UICollectionViewDataSource {
-    
-    //MARK: CollectionView
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -178,7 +169,6 @@ extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let rows = self.canada.rows else {
             return
-            
         }
         if indexPath.row < rows.count {
             let viewController = DetailsViewController(photo: rows[indexPath.row])
@@ -208,13 +198,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             //download image data, then reloadItems
             PhotoCollectionViewCell.estimateHeight(photo: photo, index: indexPath) { (ratio, returnIndex) in
                 
-                // Cache it
                 let size = CGSize(width: width, height: ratio*width)
                 
                 if let aReturnIndex = returnIndex {
+                    // Cache it
                     let value = NSValue.init(cgSize: size)
                     self.cellSizeCache.setObject(value, forKey: aReturnIndex as AnyObject)
-                    
                     
                     collectionView.reloadItems(at: [aReturnIndex])
                 } else {

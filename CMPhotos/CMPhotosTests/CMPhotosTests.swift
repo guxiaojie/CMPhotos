@@ -33,4 +33,38 @@ class CMPhotosTests: XCTestCase {
         }
     }
     
+    func testTitleExitsFromMockData() {
+        let canada: Canada = self.mockData()
+        let viewController = ViewController(canada: canada)
+        XCTAssertNil(viewController.title);
+    }
+    
+    func testCollectionViewExistsWhenNoData() {
+        let canada = Canada()
+        let viewController = ViewController(canada: canada)
+        XCTAssertNotNil(viewController.collectionView);
+    }
+
+    //MARK: Test Details View Controller
+    
+    func testDetailsViewExistsWhenNoData() {
+        let viewController = DetailsViewController()
+        XCTAssertNotNil(viewController.view);
+    }
+
+    func testDetailsImageViewExistsWhenNoData() {
+        let photo = Photo()
+        let viewController = DetailsViewController(photo: photo)
+        XCTAssertNotNil(viewController.photoImageView);
+    }
+
+    //MARK: Data
+    
+    func mockData() -> Canada{
+        let photo = Photo()
+        let canada = Canada()
+        canada.title = "a"
+        canada.rows = [photo]
+        return canada
+    }
 }

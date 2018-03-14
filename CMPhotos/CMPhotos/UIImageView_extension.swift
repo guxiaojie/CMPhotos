@@ -9,10 +9,9 @@
 import UIKit
 
 extension UIImageView {
-    
-    //****lack of cache; Should load from cache first, then download if not cached
-    
+    //load from cache first, then download if not cached(PhotoRequest)
     func cm_setImage(urlStr : String?, placeholder : UIImage? = nil){
+        
         self.image = placeholder
         
         if urlStr == nil {
@@ -24,7 +23,6 @@ extension UIImageView {
             return
         }
         
-        
         PhotoRequest.downloadImg(urlStr: urlStr) { (data, error) in
             if data != nil {
                 DispatchQueue.main.async {
@@ -32,9 +30,7 @@ extension UIImageView {
                 }
             }
         }
-        
     }
-    
 }
 
 
