@@ -1,8 +1,8 @@
 //
 //  Canada.swift
-//  WProficiencyTest
+//  CMPhotos
 //
-//  Created by Guxiaojie on 10/03/2018.
+//  Created by Guxiaojie on 14/03/2018.
 //  Copyright © 2018 SageGu. All rights reserved.
 //
 

@@ -1,8 +1,8 @@
 //
 //  PhotoTableViewCell.swift
-//  WProficiencyTest
+//  CMPhotos
 //
-//  Created by Guxiaojie on 10/03/2018.
+//  Created by Guxiaojie on 14/03/2018.
 //  Copyright © 2018 SageGu. All rights reserved.
 //
 
@@ -109,7 +109,7 @@ class PhotoTableViewCell: UITableViewCell {
         
         //Here use SDWebImage
         //Other wise I'll category UIImage (download Data and Manage Cache and so on)
-        self.photoImageView.sd_setImage(with: URL(string: photo.imageHref ?? ""), placeholderImage: UIImage(named: "cloud.png"))        
+        //self.photoImageView.sd_setImage(with: URL(string: photo.imageHref ?? ""), placeholderImage: UIImage(named: "cloud.png"))
     }
 
 }
