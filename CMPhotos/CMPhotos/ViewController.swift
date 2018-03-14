@@ -9,12 +9,10 @@
 import UIKit
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    let tableView = UITableView()
+class ViewController: UIViewController {
     
     var collectionView: UICollectionView!
-    var layout: PhotoCollectionViewLayout!
+//    var layout: PhotoCollectionViewLayout!
     private var cellSizeCache = NSCache<AnyObject, AnyObject>()
 
     
@@ -32,6 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.backgroundColor = UIColor.white
         commonInit()
         setupConstraint()
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.orientationChanged(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -56,15 +55,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func commonInit() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(ViewController.refresh))
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "Cell")
-        //view.addSubview(tableView)
         
         let flowLayout = UICollectionViewFlowLayout()
-//        flowLayout.itemSize = CGSize(width: view.bounds.width, height: 300)
-
-        layout = PhotoCollectionViewLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.delegate = self
@@ -75,14 +67,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         view.addSubview(indicatorView)
         
         // just for a better UI while loading data
-        tableView.isHidden = true;
+        collectionView.isHidden = true;
         indicatorView.hidesWhenStopped = true;
         
     }
     
     func setupConstraint() {
-        //constraint tableview
-        self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        //constraint collectionView
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         let viewsDictionary = ["contentView": collectionView, "button": refresButton] as [String : Any]
         let constraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[contentView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
         let constraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[contentView]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
@@ -104,7 +96,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.init()
         
         self.canada = canada
-        self.tableView.reloadData()
+        self.collectionView.reloadData()
     }
     
     //MARK: Load Data
@@ -119,7 +111,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if error != nil {
                     strongSelf.canada = Canada()
                     DispatchQueue.main.async {
-                        strongSelf.tableView.isHidden = true
+                        strongSelf.collectionView.isHidden = true
                         strongSelf.indicatorView.stopAnimating()
                     }
                 } else {
@@ -127,42 +119,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         strongSelf.canada = canada
                     }
                     DispatchQueue.main.async {
-                        strongSelf.tableView.isHidden = false
-                        strongSelf.tableView.reloadData()
+                        strongSelf.collectionView.isHidden = false
+                        strongSelf.collectionView.reloadData()
                         strongSelf.indicatorView.stopAnimating()
                         
-                        strongSelf.title = strongSelf.canada.title ?? "No Title"
-                        
-                        strongSelf.collectionView.reloadData()
-                        
+                        strongSelf.title = strongSelf.canada.title ?? "No Title"                        
                     }
                 }
                 strongSelf.isLoading = false
             }
         }
-    }
-    
-    //MARK: Table View Delegate/DataSource
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return canada.rows?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: PhotoTableViewCell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! PhotoTableViewCell
-        if let rows = self.canada.rows {
-            if indexPath.row < rows.count {
-                cell.reloadData(photo: rows[indexPath.row])
-            }
-        }
-        return cell
     }
     
     //MARK: Actions
@@ -174,6 +140,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             loadData()
         }
+    }
+    
+    //MARK: orientation
+    @objc func orientationChanged(_ notification: Notification) {
+        collectionView.collectionViewLayout.invalidateLayout()
     }
     
 }
@@ -204,8 +175,16 @@ extension ViewController: UICollectionViewDataSource {
 }
 
 extension ViewController: UICollectionViewDelegate {
-    
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let rows = self.canada.rows else {
+            return
+            
+        }
+        if indexPath.row < rows.count {
+            let viewController = DetailsViewController(photo: rows[indexPath.row])
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
@@ -215,26 +194,35 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         if let size = cellSizeCache.object(forKey: indexPath as AnyObject) as? NSValue {
             return size.cgSizeValue
         }
-        
-        let width: CGFloat = collectionView.bounds.width
+        //use width when UIInterfaceOrientationIsPortrait
+        let width: CGFloat = min(collectionView.bounds.width, collectionView.bounds.height)
         let height: CGFloat = 100
         guard let rows = self.canada.rows else {
             return CGSize(width: width, height: height)
         }
+        
+        var finalSize = CGSize(width: width, height: height)
         if indexPath.row < rows.count {
             let photo = rows[indexPath.row]
-            PhotoCollectionViewCell.estimateHeight(photo: photo, index: indexPath) { (height, index) in
-                print(height)
-
+            
+            //download image data, then reloadItems
+            PhotoCollectionViewCell.estimateHeight(photo: photo, index: indexPath) { (ratio, returnIndex) in
+                
                 // Cache it
-                let size = CGSize(width: width, height: height)
-                let value = NSValue.init(cgSize: size)
-                self.cellSizeCache.setObject(value, forKey: indexPath as AnyObject)
-
-                collectionView.reloadItems(at: [indexPath])
+                let size = CGSize(width: width, height: ratio*width)
+                
+                if let aReturnIndex = returnIndex {
+                    let value = NSValue.init(cgSize: size)
+                    self.cellSizeCache.setObject(value, forKey: aReturnIndex as AnyObject)
+                    
+                    
+                    collectionView.reloadItems(at: [aReturnIndex])
+                } else {
+                    finalSize = size;
+                }
             }
         }
-        return CGSize(width: width, height: height)
+        return finalSize
     }
 
 }

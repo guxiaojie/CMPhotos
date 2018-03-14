@@ -43,7 +43,7 @@ class PhotoRequest: NSObject {
         downloadTask.resume()
     }
     
-    //****lack of cache; Should load from cache first, then download if not cached
+    //load from cache first, then download if not cached
     class func downloadImg(urlStr: String?, completion: @escaping (_ img: Data?,  _ error: Error?) -> Void ) {
         if urlStr == nil {
             return
@@ -52,6 +52,14 @@ class PhotoRequest: NSObject {
         guard let url = aUrl else {
             return
         }
+        
+        let imageCachePath = urlStr!.appendImageCachePath()
+        let cacheData = try? Data(contentsOf: imageCachePath)
+        if cacheData != nil {
+            completion(cacheData!, nil)
+            return
+        }
+        
         let request = URLRequest(url: url)
         let session = URLSession.shared
         let downloadTask: URLSessionDownloadTask = session.downloadTask(with: request) { location, response, error in
@@ -70,9 +78,11 @@ class PhotoRequest: NSObject {
                 }
                 completion(data, error)
                 
+                do {
+                    try? data.write(to:
+                        imageCachePath, options: Data.WritingOptions.completeFileProtectionUntilFirstUserAuthentication)
+                }
             }
-            //More to go
-            //Image Data Should be Cached
         }
         downloadTask.resume()
     }
