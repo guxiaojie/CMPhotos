@@ -184,8 +184,9 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         if let size = cellSizeCache.object(forKey: indexPath as AnyObject) as? NSValue {
             return size.cgSizeValue
         }
-        //use width when UIInterfaceOrientationIsPortrait
-        let width: CGFloat = min(collectionView.bounds.width, collectionView.bounds.height)
+        //update with UIInterfaceOrientation change
+        let width: CGFloat = collectionView.bounds.width
+        print(width)
         let height: CGFloat = 100
         guard let rows = self.canada.rows else {
             return CGSize(width: width, height: height)
