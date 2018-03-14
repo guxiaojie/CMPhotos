@@ -67,7 +67,9 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         contentView.addConstraints(constraintV)
         contentView.addConstraint(constraintVBottom)
 
+        
     }
+    
     func setupConstraint() {
         //photoImageView
         let viewsDictionary = ["image": photoImageView, "title": titleLabel, "description": descriptionLabel]
@@ -113,9 +115,21 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     func reloadData(photo: Photo) {
         self.titleLabel.text = photo.title ?? "No title!😕"
         self.descriptionLabel.text = photo.description ?? "No description!😒"
-        
-        //Here use SDWebImage
-        //Other wise I'll category UIImage (download Data and Manage Cache and so on)
-        //self.photoImageView.sd_setImage(with: URL(string: photo.imageHref ?? ""), placeholderImage: UIImage(named: "cloud.png"))
+        self.photoImageView.cm_setImage(urlStr: photo.imageHref, placeholder: UIImage(named: "cloud.png"))
     }
+    
+    class func estimateHeight(photo: Photo, index: IndexPath, completion: @escaping (_ height: CGFloat, _ indexPath: IndexPath) -> Void) {
+        var aspectRatio: CGFloat = 1
+        PhotoRequest.downloadImg(urlStr: photo.imageHref) { (data, error) in
+            if let aData = data {
+                let size = UIImage(data: aData)?.size
+                if let aSize = size {
+                    aspectRatio = aSize.height/aSize.width
+                    let height = aspectRatio*UIScreen.main.bounds.width
+                    completion(height, index)
+                }
+            }
+        }
+    }
+    
 }

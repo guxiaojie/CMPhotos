@@ -43,25 +43,34 @@ class PhotoRequest: NSObject {
         downloadTask.resume()
     }
     
-    //Here use SDWebImage
-    //Other wise I'll category UIImage (download Data and Manage Cache and so on)
-    class func downloadImg(url: String, completion: @escaping (_ img: Data?,  _ error: Error?) -> Void ) {
-        let request = URLRequest(url: URL(string: url)!)
+    //****lack of cache; Should load from cache first, then download if not cached
+    class func downloadImg(urlStr: String?, completion: @escaping (_ img: Data?,  _ error: Error?) -> Void ) {
+        if urlStr == nil {
+            return
+        }
+        let aUrl = URL(string: urlStr!)
+        guard let url = aUrl else {
+            return
+        }
+        let request = URLRequest(url: url)
         let session = URLSession.shared
         let downloadTask: URLSessionDownloadTask = session.downloadTask(with: request) { location, response, error in
-            guard location != nil && error == nil else {
-                print(error ?? "Error")
-                completion(nil, error)
-                return
+            DispatchQueue.main.async {
+                
+                guard location != nil && error == nil else {
+                    print(error ?? "Error")
+                    completion(nil, error)
+                    return
+                }
+                
+                guard let data = try? Data(contentsOf: location!) else {
+                    print("Error: Couldn't read data")
+                    completion(nil, error)
+                    return
+                }
+                completion(data, error)
+                
             }
-            
-            guard let data = try? Data(contentsOf: location!) else {
-                print("Error: Couldn't read data")
-                completion(nil, error)
-                return
-            }
-            completion(data, error)
-            
             //More to go
             //Image Data Should be Cached
         }

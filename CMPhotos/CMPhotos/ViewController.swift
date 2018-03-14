@@ -15,6 +15,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var collectionView: UICollectionView!
     var layout: PhotoCollectionViewLayout!
+    private var cellSizeCache = NSCache<AnyObject, AnyObject>()
+
     
     let refresButton = UIButton()//Mean to show  when no data(not finish)
     let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -60,7 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //view.addSubview(tableView)
         
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: view.bounds.width, height: 300)
+//        flowLayout.itemSize = CGSize(width: view.bounds.width, height: 300)
 
         layout = PhotoCollectionViewLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: flowLayout)
@@ -190,10 +192,11 @@ extension ViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! PhotoCollectionViewCell
-        if let rows = self.canada.rows {
-            if indexPath.row < rows.count {
-                cell.reloadData(photo: rows[indexPath.row])
-            }
+        guard let rows = self.canada.rows else {
+            return cell
+        }
+        if indexPath.row < rows.count {
+            cell.reloadData(photo: rows[indexPath.row])
         }
         return cell
     }
@@ -202,6 +205,38 @@ extension ViewController: UICollectionViewDataSource {
 
 extension ViewController: UICollectionViewDelegate {
     
+    
+}
+
+extension ViewController: UICollectionViewDelegateFlowLayout {
+   
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if let size = cellSizeCache.object(forKey: indexPath as AnyObject) as? NSValue {
+            return size.cgSizeValue
+        }
+        
+        let width: CGFloat = collectionView.bounds.width
+        let height: CGFloat = 100
+        guard let rows = self.canada.rows else {
+            return CGSize(width: width, height: height)
+        }
+        if indexPath.row < rows.count {
+            let photo = rows[indexPath.row]
+            PhotoCollectionViewCell.estimateHeight(photo: photo, index: indexPath) { (height, index) in
+                print(height)
+
+                // Cache it
+                let size = CGSize(width: width, height: height)
+                let value = NSValue.init(cgSize: size)
+                self.cellSizeCache.setObject(value, forKey: indexPath as AnyObject)
+
+                collectionView.reloadItems(at: [indexPath])
+            }
+        }
+        return CGSize(width: width, height: height)
+    }
+
 }
 
 

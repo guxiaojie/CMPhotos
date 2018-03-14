@@ -18,6 +18,7 @@
 		C6EA92B32058A6ED0014ABCF /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA92AF2058A6ED0014ABCF /* PhotoTableViewCell.swift */; };
 		C6EA92B52058B36C0014ABCF /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA92B42058B36C0014ABCF /* PhotoCollectionViewCell.swift */; };
 		C6EA92B92058B7380014ABCF /* PhotoCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA92B82058B7380014ABCF /* PhotoCollectionViewLayout.swift */; };
+		C6EA92C02058C89D0014ABCF /* UIImageView_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA92BF2058C89D0014ABCF /* UIImageView_extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		C6EA92AF2058A6ED0014ABCF /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		C6EA92B42058B36C0014ABCF /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		C6EA92B82058B7380014ABCF /* PhotoCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewLayout.swift; sourceTree = "<group>"; };
+		C6EA92BF2058C89D0014ABCF /* UIImageView_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView_extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				C6EA92BA2058BE090014ABCF /* models */,
 				C6EA92BB2058BE210014ABCF /* Views */,
 				C6EA92B82058B7380014ABCF /* PhotoCollectionViewLayout.swift */,
+				C6EA92BF2058C89D0014ABCF /* UIImageView_extension.swift */,
 			);
 			path = CMPhotos;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				C6EA92B52058B36C0014ABCF /* PhotoCollectionViewCell.swift in Sources */,
 				C6EA92B12058A6ED0014ABCF /* Canada.swift in Sources */,
 				C6EA92B22058A6ED0014ABCF /* Photo.swift in Sources */,
+				C6EA92C02058C89D0014ABCF /* UIImageView_extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
