@@ -69,7 +69,7 @@ class DetailsViewController: UIViewController {
 
     func setupOrientationConstraint() {
         //photoImageView
-        let viewsDictionary = ["image": photoImageView,  "description": descriptionLabel]
+        let viewsDictionary = ["image": photoImageView,  "description": descriptionLabel] as [String : Any]
         let marginsDictionary = ["leftMargin": 10, "rightMargin": 10, "viewSpacing": 10]
         let constraintImageHor = NSLayoutConstraint.constraints(withVisualFormat: "H:|-leftMargin-[image]-rightMargin-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: marginsDictionary, views: viewsDictionary)
         let constraintImageTop = NSLayoutConstraint.constraints(withVisualFormat: "V:|-74-[image]", options: NSLayoutFormatOptions.alignAllTop, metrics: nil, views: viewsDictionary)
@@ -88,7 +88,7 @@ class DetailsViewController: UIViewController {
     
     func setupLandscapeConstraint() {
         //photoImageView
-        let viewsDictionary = ["image": photoImageView,  "description": descriptionLabel]
+        let viewsDictionary = ["image": photoImageView,  "description": descriptionLabel] as [String : Any]
         let marginsDictionary = ["leftMargin": 10, "rightMargin": 10, "viewSpacing": 10]
         let constraintImageHor = NSLayoutConstraint.constraints(withVisualFormat: "H:|-leftMargin-[image]", options: NSLayoutFormatOptions(rawValue: 0), metrics: marginsDictionary, views: viewsDictionary)
         let constraintImageTop = NSLayoutConstraint.constraints(withVisualFormat: "V:|-65-[image]", options: NSLayoutFormatOptions.alignAllTop, metrics: nil, views: viewsDictionary)

@@ -1,0 +1,6 @@
+framework module Pods_CMPhotos {
+  umbrella header "Pods-CMPhotos-umbrella.h"
+
+  export *
+  module * { export * }
+}

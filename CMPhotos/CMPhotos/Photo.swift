@@ -7,11 +7,18 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class Photo {
     var title: String?
     var imageHref: String?
     var description: String?
+    
+    init(json: JSON) {
+        self.title = json["title"].string
+        self.imageHref = json["imageHref"].string
+        self.description = json["description"].string
+    }
 }
 
 /*
