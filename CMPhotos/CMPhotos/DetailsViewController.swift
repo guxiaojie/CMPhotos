@@ -35,8 +35,14 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = photo?.title ?? "No title!😕"
-        self.photoImageView.cm_setImage(urlStr: photo?.imageHref, placeholder: UIImage(named: "cloud.png"))
         self.descriptionLabel.text = photo?.description ?? "No description!😒"
+        
+        //self.photoImageView.cm_setImage(urlStr: photo?.imageHref, placeholder: UIImage(named: "cloud.png"))
+
+        //Use Third-party kingfisher 
+        let url = URL(string: photo?.imageHref ?? "")
+        self.photoImageView.kf.setImage(with: url)
+
     }
 
     override func didReceiveMemoryWarning() {

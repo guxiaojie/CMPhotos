@@ -97,6 +97,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     class func estimateHeight(photo: Photo, index: IndexPath, completion: @escaping (_ ratio: CGFloat, _ indexPath: IndexPath?) -> Void) {
         
         var aspectRatio: CGFloat = 1
+        
+        /* // anather way to get height with Kingfisher
         if photo.imageHref != nil {
             //Use Third-party kingfisher
             KingfisherManager.shared.retrieveImage(with: URL(string: photo.imageHref!)!, options: nil, progressBlock: nil) { (image, error, cacheType, imageURL) in
@@ -109,10 +111,10 @@ class PhotoCollectionViewCell: UICollectionViewCell {
                 completion(aspectRatio, index)
             }
         }
+         */
         
-        //This works with easy codes I wrote, But chose Kingfisher at the end
-        /*
-        //tell controller get height from cached image
+        ///*
+        //tell controller get height from cached image(basic cache)
         if photo.imageHref != nil {
             let imageCachePath = photo.imageHref!.appendImageCachePath()
             let cacheData = try? Data(contentsOf: imageCachePath)
@@ -135,7 +137,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
-        */
+        //*/
     }
     
 }
