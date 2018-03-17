@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		319CD02A2219BE04B2335119 /* Pods_CMPhotosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C8F5CEF56501653F51E760 /* Pods_CMPhotosTests.framework */; };
 		52E5B6BD8EB6832B883D7B28 /* Pods_CMPhotos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06422E37ADACFAB888B3EFCC /* Pods_CMPhotos.framework */; };
 		C6AB1D3E205CEC370029B49C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AB1D3D205CEC370029B49C /* AppDelegate.swift */; };
 		C6AB1D40205CEC370029B49C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AB1D3F205CEC370029B49C /* ViewController.swift */; };
@@ -33,7 +34,10 @@
 
 /* Begin PBXFileReference section */
 		06422E37ADACFAB888B3EFCC /* Pods_CMPhotos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CMPhotos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		092502A74C963F1891459C3D /* Pods-CMPhotosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMPhotosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CMPhotosTests/Pods-CMPhotosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		43C8F5CEF56501653F51E760 /* Pods_CMPhotosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CMPhotosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		675EE268E154A792D8CFED6B /* Pods-CMPhotos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMPhotos.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMPhotos/Pods-CMPhotos.release.xcconfig"; sourceTree = "<group>"; };
+		82C5284597B09FC5DC1A29F7 /* Pods-CMPhotosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMPhotosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMPhotosTests/Pods-CMPhotosTests.release.xcconfig"; sourceTree = "<group>"; };
 		C6AB1D3A205CEC370029B49C /* CMPhotos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMPhotos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6AB1D3D205CEC370029B49C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6AB1D3F205CEC370029B49C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				319CD02A2219BE04B2335119 /* Pods_CMPhotosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				06422E37ADACFAB888B3EFCC /* Pods_CMPhotos.framework */,
+				43C8F5CEF56501653F51E760 /* Pods_CMPhotosTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -84,6 +90,8 @@
 			children = (
 				E3BC84311D7A2B773E69891F /* Pods-CMPhotos.debug.xcconfig */,
 				675EE268E154A792D8CFED6B /* Pods-CMPhotos.release.xcconfig */,
+				092502A74C963F1891459C3D /* Pods-CMPhotosTests.debug.xcconfig */,
+				82C5284597B09FC5DC1A29F7 /* Pods-CMPhotosTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -116,8 +124,7 @@
 				C6AB1D63205CED460029B49C /* DetailsViewController.swift */,
 				C6AB1D6B205CEE1F0029B49C /* Models */,
 				C6AB1D6C205CEE3D0029B49C /* Views */,
-				C6AB1D61205CED450029B49C /* String_extension.swift */,
-				C6AB1D5D205CED450029B49C /* UIImageView_extension.swift */,
+				C6AB1D6D205CF2510029B49C /* Helper */,
 				C6AB1D44205CEC370029B49C /* Assets.xcassets */,
 				C6AB1D49205CEC370029B49C /* Info.plist */,
 			);
@@ -151,6 +158,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		C6AB1D6D205CF2510029B49C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				C6AB1D61205CED450029B49C /* String_extension.swift */,
+				C6AB1D5D205CED450029B49C /* UIImageView_extension.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -178,9 +194,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6AB1D5A205CEC370029B49C /* Build configuration list for PBXNativeTarget "CMPhotosTests" */;
 			buildPhases = (
+				0A3FEB857EBD3F86A43EA963 /* [CP] Check Pods Manifest.lock */,
 				C6AB1D4A205CEC370029B49C /* Sources */,
 				C6AB1D4B205CEC370029B49C /* Frameworks */,
 				C6AB1D4C205CEC370029B49C /* Resources */,
+				8110CD787BF85FA0399E7620 /* [CP] Embed Pods Frameworks */,
+				9131EB9B61EC74402D4B82A9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,6 +270,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0A3FEB857EBD3F86A43EA963 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CMPhotosTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		412B38DCAA2CCA395FB4CB55 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,6 +301,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CMPhotos/Pods-CMPhotos-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8110CD787BF85FA0399E7620 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CMPhotosTests/Pods-CMPhotosTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CMPhotosTests/Pods-CMPhotosTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9131EB9B61EC74402D4B82A9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CMPhotosTests/Pods-CMPhotosTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AA98FEC0CBD1DB71A79531F9 /* [CP] Check Pods Manifest.lock */ = {
@@ -291,10 +361,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CMPhotos/Pods-CMPhotos-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,6 +551,7 @@
 		};
 		C6AB1D5B205CEC370029B49C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 092502A74C963F1891459C3D /* Pods-CMPhotosTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -495,6 +568,7 @@
 		};
 		C6AB1D5C205CEC370029B49C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82C5284597B09FC5DC1A29F7 /* Pods-CMPhotosTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

@@ -186,7 +186,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         }
         //update with UIInterfaceOrientation change
         let width: CGFloat = collectionView.bounds.width
-        print(width)
         let height: CGFloat = 100
         guard let rows = self.canada.rows else {
             return CGSize(width: width, height: height)

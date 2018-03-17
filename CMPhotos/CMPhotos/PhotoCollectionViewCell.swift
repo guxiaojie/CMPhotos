@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     
@@ -83,12 +84,34 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     func reloadData(photo: Photo) {
         self.titleLabel.text = photo.title ?? "No title!😕"
-        self.photoImageView.cm_setImage(urlStr: photo.imageHref, placeholder: UIImage(named: "cloud.png"))
+        
+        //This works well, but chose Third-party kingfisher at the end
+        //Setup Image with Category UIImageView_extension
+        //self.photoImageView.cm_setImage(urlStr: photo.imageHref, placeholder: UIImage(named: "cloud.png"))
+        
+        //Use Third-party kingfisher
+        let url = URL(string: photo.imageHref ?? "")
+        self.photoImageView.kf.setImage(with: url)
     }
     
     class func estimateHeight(photo: Photo, index: IndexPath, completion: @escaping (_ ratio: CGFloat, _ indexPath: IndexPath?) -> Void) {
-        var aspectRatio: CGFloat = 1
         
+        var aspectRatio: CGFloat = 1
+        if photo.imageHref != nil {
+            //Use Third-party kingfisher
+            KingfisherManager.shared.retrieveImage(with: URL(string: photo.imageHref!)!, options: nil, progressBlock: nil) { (image, error, cacheType, imageURL) in
+                guard image != nil && error == nil else {
+                    return
+                }
+                
+                let size = image!.size
+                aspectRatio = size.height/size.width
+                completion(aspectRatio, index)
+            }
+        }
+        
+        //This works with easy codes I wrote, But chose Kingfisher at the end
+        /*
         //tell controller get height from cached image
         if photo.imageHref != nil {
             let imageCachePath = photo.imageHref!.appendImageCachePath()
@@ -102,7 +125,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
-        
 
         PhotoRequest.downloadImg(urlStr: photo.imageHref) { (data, error) in
             if let aData = data {
@@ -113,6 +135,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
                 }
             }
         }
+        */
     }
     
 }
